@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lukeiner | Game Dev Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── VARIABLES ── */
+        :root {
+            --teal:      #0d9488;
+            --teal-light:#2dd4bf;
+            --teal-glow: rgba(45,212,191,0.18);
+            --bg:        #f1f5f9;
+            --surface:   #ffffff;
+            --arena:     #fffbf5;
+            --border:    #e2e8f0;
+            --text:      #334155;
+            --text-dark: #1e293b;
+        }
+ 
+        /* ── RESET ── */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+ 
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            cursor: default; 
+        }
+
+ 
+        /* ── HEADER ── */
+        header {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(90deg, #64ffda 0%, #ffffff 50%, #64ffda 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+ 
+        .logo-container {
+            /* mover el logo del mate unos píxeles hacia abajo */
+            margin-top: 12px;
+        }
+
+	    .logo-container img {
+            height: 100px;
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+        }
+
+        .logo-container img { height: 130px; }
+
+	    .logo-container img:hover {transform: scale(1.10);}
+ 
+        /* Título desplazado a la derecha con espacio para el dibujo */
+        .header-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            margin-left: auto;
+            margin-right: 20px;
+            position: relative;
+        }
+
+ 
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.1em;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            position: relative;
+        }
+ 
+        /* Placeholder reservado para el dibujo */
+        .drawing-slot {
+            width: 54px; height: 54px;
+            border: 2px dashed var(--teal-light);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--teal); font-size: 0.7em; text-align: center;
+            opacity: 0.6;
+            font-family: 'Space Mono', monospace;
+            flex-shrink: 0;
+        }
+ 
+        /* Selector idioma */
+        .lang-switch {
+            display: flex; gap: 5px;
+            background: #e2e8f0; padding: 5px;
+            border-radius: 20px; flex-shrink: 0;
+        }
+        .lang-btn {
+            border: none; padding: 5px 15px; border-radius: 15px; cursor: none;
+            font-weight: 700; font-family: 'Space Mono', monospace;
+            background: transparent; color: #64748b; transition: 0.3s;
+        }
+        .lang-btn.active { background: var(--text-dark); color: white; }
+ 
+        /* ── MAIN CONTAINER ── */
+        .container {
+            max-width: 1100px;
+            margin: 48px auto;
+            padding: 0 20px;
+            display: flex; flex-direction: column; gap: 56px;
+        }
+ 
+        /* ── ABOUT (terminal) ── */
+        .terminal-box {
+            background: var(--arena);
+            border-radius: 14px;
+            padding: 32px 44px;
+            border: 1px solid #e7e5e4;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            /* tamaño más acorde al resto de secciones */
+            max-width: 780px;
+            width: 100%;
+        }
+        .terminal-header {
+            color: var(--teal);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85em;
+            border-bottom: 1px solid #e7e5e4;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+        .teal-text { color: var(--teal); font-weight: 700; }
+        .terminal-box p { font-size: 1em; margin-bottom: 8px; }
+        .terminal-box p:last-child { margin-bottom: 0; }
+ 
+        /* ── SECTION TITLE ── */
+        .section-title {
+            font-size: 1.75em;
+            font-family: 'Space Mono', monospace;
+            color: var(--teal);
+            margin-bottom: 28px;
+            border-left: 5px solid var(--teal-light);
+            padding-left: 16px;
+        }
+ 
+        /* ── GRID / CARDS ── */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 26px;
+        }
+ 
+        .card {
+            background: var(--surface);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            /* HOVER: crece un poco + sombra glow */
+            transition: transform 0.28s cubic-bezier(.34,1.56,.64,1),
+                        box-shadow 0.28s ease;
+            cursor: none;
+        }
+        .card:hover {
+            transform: scale(1.035) translateY(-4px);
+            box-shadow: 0 12px 36px rgba(13,148,136,0.13);
+        }
+ 
+        .card-img {
+            width: 100%; height: 185px;
+            background: #cbd5e1;
+            object-fit: cover;
+            background-size: cover;
+            background-position: center;
+        }
+ 
+        /* Tarjeta con video (HeartCake) */
+        .card-video {
+            width: 100%; height: 185px;
+            object-fit: cover;
+            display: block;
+        }
+ 
+        .card-content { padding: 22px 24px; }
+        .card-content h3, .card-content h4 { font-family: 'Space Mono', monospace; font-size: 1em; margin-bottom: 8px; }
+        .card-content p { font-size: 0.92em; color: #64748b; }
+ 
+        /* ── CONTACT (rediseñado elegante) ── */
+        .contact-box {
+            background: linear-gradient(135deg, #f0fdfa 0%, #e6faf7 100%);
+            border: 1.5px solid var(--teal-light);
+            border-radius: 18px;
+            padding: 52px 60px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(45,212,191,0.10);
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .contact-box h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.9em;
+            color: var(--teal);
+            margin-bottom: 6px;
+        }
+        .contact-box .subtitle {
+            color: #64748b;
+            font-size: 0.95em;
+            margin-bottom: 34px;
+        }
+        .contact-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin: 0 0 34px;
+            flex-wrap: wrap;
+        }
+        .contact-links li a {
+            display: flex; align-items: center; gap: 8px;
+            color: var(--teal); font-weight: 600;
+            text-decoration: none; font-size: 1em;
+            padding: 10px 20px;
+            border: 1.5px solid var(--teal-light);
+            border-radius: 40px;
+            background: white;
+            transition: background 0.25s, color 0.25s, transform 0.2s;
+            cursor: none;
+        }
+        .contact-links li a:hover {
+            background: var(--teal);
+            color: white;
+            transform: translateY(-2px);
+        }
+ 
+        .btn-cv {
+            display: inline-block;
+            padding: 13px 36px;
+            background: var(--teal);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+            transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(13,148,136,0.25);
+            cursor: none;
+        }
+        .btn-cv:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(13,148,136,0.3);
+        }
+ 
+        /* ── BLOG / RESEÑAS ── */
+        .blog-card {
+            background: var(--surface);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            padding: 26px 28px;
+            display: flex; flex-direction: column; gap: 10px;
+            transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s ease;
+            cursor: none;
+        }
+        .blog-card:hover {
+            transform: scale(1.035) translateY(-4px);
+            box-shadow: 0 12px 36px rgba(13,148,136,0.12);
+        }
+        .blog-tag {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72em;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--teal-glow);
+            color: var(--teal);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
+        }
+        .blog-card h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.98em;
+            color: var(--text-dark);
+        }
+        .blog-card p { font-size: 0.88em; color: #64748b; }
+        .blog-date { font-size: 0.78em; color: #94a3b8; font-family: 'Space Mono', monospace; }
+        .blog-link {
+            color: var(--teal); font-weight: 700; font-size: 0.88em;
+            text-decoration: none; align-self: flex-start;
+            transition: letter-spacing 0.2s;
+        }
+        .blog-link:hover { letter-spacing: 1px; }
+ 
+        /* Stars (reseñas) */
+        .stars { color: #f59e0b; font-size: 1em; letter-spacing: 2px; }
+ 
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 28px 0 36px;
+            color: #94a3b8;
+            font-size: 0.82em;
+            font-family: 'Space Mono', monospace;
+        }
+ 
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    
+        /* ── PRÓXIMOS PROYECTOS ── */
+        .upcoming-card {
+            background: var(--surface);
+            border-radius: 14px;
+            border: 2px dashed var(--border);
+            padding: 28px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s ease;
+        }
+        .upcoming-card:hover {
+            transform: scale(1.035) translateY(-4px);
+            box-shadow: 0 12px 36px rgba(13,148,136,0.10);
+        }
+        .upcoming-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68em;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: rgba(100,116,139,0.1);
+            color: #64748b;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
+        }
+
+        .upcoming-card h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1em;
+            color: var(--text-dark);
+        }
+
+        .upcoming-card p {
+            font-size: 0.88em;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .upcoming-status {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75em;
+            color: var(--teal);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+ 
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+ 
+    <!-- HEADER -->
+    <header>
+        <div class="logo-container">
+            <img src="Assets/Logo_Valen3.png" alt="Lukeiner Logo">
+        </div>
+ 
+        <div class="header-title-wrap">
+            <img src="Assets/LogoPágina.png" alt="Lukeiner Logo"> 
+            <h1>Lukeiner</h1>
+            
+           <!--<div class="drawing-slot" title="Aquí va tu dibujo">art<br>here</div>-->
+        </div>
+ 
+        <div class="lang-switch">
+            <button class="lang-btn active">ES</button>
+            <button class="lang-btn">EN</button>
+        </div>
+    </header>
+ 
+    <main class="container">
+ 
+        <!-- ACERCA DE MÍ -->
+        <section class="reveal">
+            <div class="terminal-box">
+                <div class="terminal-header">root@lukeiner:~/portfolio $</div>
+                <p class="teal-text">&gt; <span data-es="¡Hola!" data-en="Hi!">¡Hola!</span></p>
+                <p class="teal-text">&gt; <span data-es="Me llamo Lukeiner" data-en="My name is Lucas Fernandez">Me llamo Lukeiner</span></p>
+                <p style="margin: 12px 0;"
+                   data-es="Desarrollador de videojuegos enfocado en Unity. Me interesa crear experiencias interactivas con identidad visual fuerte y mecánicas claras."
+                   data-en="Game developer focused on Unity. I'm interested in creating interactive experiences with strong visual identity and clear mechanics.">
+                   Desarrollador de videojuegos enfocado en Unity. Me interesa crear experiencias interactivas con identidad visual fuerte y mecánicas claras.
+                </p>
+                <p class="teal-text">&gt; <span data-es="Habilidades: [C#, Unity, Godot, Pixel Art, WorlBuilding, GameDesign]" data-en="Skills: [C#, Unity, Godot, Pixel Art, WorldBuilding, GameDesign]">Habilidades: [C#, Unity, Godot, Pixel Art, WorldBuilding, GameDesign]</span></p>
+            </div>
+        </section>
+ 
+        <!-- PROYECTOS -->
+        <section class="reveal">
+            <h2 class="section-title" data-es="Proyectos Destacados" data-en="Featured Projects">Proyectos Destacados</h2>
+            <div class="grid-layout">
+ 
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('Proyectos/ImagenesDragonRage/BolaDeFuego.gif');"></div>
+                    <div class="card-content">
+                        <h3 class="teal-text">Dragon Rage</h3>
+                        <p data-es="Proyecto de juego de niveles y progresión. Caótico, emotivo y mejoras." data-en="Progression and levels project game. Chaotic, emotional and upgrades">Proyecto de juego de niveles y progresión. Caótico, emotivo y mejoras.</p>
+                        <a href="Proyectos/DragonRage.html" class="teal-text" 
+                           style="font-size:0.88em; margin-top:8px; display:inline-block;">
+                           Ver proyecto ↗
+                        </a>
+                    </div>
+                </div>
+ 
+                  <div class="card">
+                    <div class="card-img" style="background-image: url('Assets/Fondo.gif');"></div>
+                    <div class="card-content">
+                        <h3 class="teal-text">Messimania</h3>
+                        <p>Bullet-heaven de temática fútbol argentino, con arte en Pixel Art de diseño propio.</p>
+                        <a href="Proyectos/Messimania.html" class="teal-text" 
+                           style="font-size:0.88em; margin-top:8px; display:inline-block;">
+                           Ver proyecto ↗
+                        </a>
+                    </div>
+                    
+                </div>
+                <!-- HeartCake: video en lugar de imagen -->
+                <div class="card">
+                    <video class="card-video" autoplay muted loop playsinline
+                           src="Assets/CakeProject.mp4"
+                           poster="Assets/HeartCake_Thumb.png">
+                    </video>
+                    <div class="card-content">
+                        <h3 class="teal-text">HeartCakeProject</h3>
+                        <p>Experiencia interactiva 3D de producto alimenticio.</p>
+                        <a href="Proyectos/HeartCakeProject.html" class="teal-text" 
+                           style="font-size:0.88em; margin-top:8px; display:inline-block;">
+                           Ver proyecto ↗
+                        </a>
+                    </div>
+                </div>
+
+ 
+            </div>
+        </section>
+
+    <!-- PRÓXIMOS PROYECTOS -->
+    <section class="reveal">
+        <h2 class="section-title" data-es="Próximos Proyectos" data-en="Upcoming Projects">Próximos Proyectos</h2>
+        <div class="grid-layout">
+
+        <div class="upcoming-card">
+            <span class="upcoming-tag">// En desarrollo</span>
+            <h3>Hugger and Cozy</h3>
+            <p>
+                Experiencia de educación emocional y autocuidado de una chica que da abrazos a la gente que lo necesita, viendo sus propias necesidades y de los demás.
+            </p>
+            <span class="upcoming-status">&gt; Motor: Unity  — Estado: prototipo</span>
+         </div>
+
+        <div class="upcoming-card">
+            <span class="upcoming-tag">// En desarrollo</span>
+            <h3>Gambler's Side</h3>
+            <p>
+                Experiencia narrativa y de pelea tomando el lugar de un crupier que debe combatir con la culpa y espectros de la gente que terminó en la ruina por su trabajo.
+            </p>
+            <span class="upcoming-status">&gt; Motor: Unity — Estado: concepto</span>
+        </div>
+
+        
+
+        </div>
+    </section>
+ 
+        <!-- NOTAS DE DISEÑO -->
+        <section class="reveal">
+            <h2 class="section-title" data-es="Notas de Diseño" data-en="Design Notes">Notas de Diseño</h2>
+            <div class="grid-layout">
+                <div class="card">
+                    <div class="card-content">
+                        <h4 class="teal-text">High Concept: Dragon Rage</h4>
+                        <p style="margin: 6px 0; font-size:0.88em; color:#64748b;">Documento de diseño del videojuego.</p>
+                        <a href="Assets/Dragon Rage_High Concept.pdf" class="teal-text" style="font-size: 0.88em;">Ver PDF ↗</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <h4 class="teal-text">High Concept: Gambler´s Side</h4>
+                        <p style="margin: 6px 0; font-size:0.88em; color:#64748b;">Documento de diseño del concepto.</p>
+                        <a href="Assets/Gambler´s Side.pdf" class="teal-text" style="font-size: 0.88em;">Ver PDF ↗</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- BLOG Y RESEÑAS -->
+        <section class="reveal">
+            <h2 class="section-title" data-es="Blog & Reseñas" data-en="Blog & Reviews">Blog & Reseñas</h2>
+            <div class="grid-layout">
+ 
+                <div class="blog-card">
+                    <span class="blog-tag">Reseña</span>
+                    <span class="blog-date">Marzo 2025</span>
+                    <h3>Persona 5 Royal <span class="stars">★★★★★</span></h3>
+                    <p data-es="Por qué Persona 5 Royal es una masterclass de consistencia estética y diseño de sistemas." data-en="Why Persona 5 Royal is a masterclass in aesthetic consistency and systems design.">Por qué Persona 5 Royal es una masterclass de consistencia estética y diseño de sistemas.</p>
+                    <a href="Resenas/Persona5_Royal.html" class="blog-link">Leer más →</a>
+                </div>
+ 
+            </div>
+        </section>
+ 
+        <!-- CONTACTO -->
+        <section class="reveal">
+            <div class="contact-box">
+                <h2 class="teal-text" data-es="¿Hablamos?" data-en="Let's Talk?">¿Hablamos?</h2>
+                <p class="subtitle" data-es="Abierto a proyectos, colaboraciones y conversaciones sobre game design." data-en="Open to projects, collaborations and conversations about game design.">Abierto a proyectos, colaboraciones y conversaciones sobre game design.</p>
+                <ul class="contact-links">
+                    <li><a href="https://lukeiner.itch.io/" target="_blank">🎮 Itch.io</a></li>
+                    <li><a href="https://linkedin.com/in/lucasdamianfernandez" target="_blank">💼 LinkedIn</a></li>
+                    <li><a href="https://github.com/Lukeiner" target="_blank">💻 GitHub</a></li>
+                    <li><a href="mailto:lukeiner.dev@gmail.com">✉️ Email</a></li>
+                </ul>
+                <a href="Assets/CV_Lucas_Fernandez.pdf" target="_blank" class="btn-cv"
+                   data-es="📄 DESCARGAR CV" data-en="📄 DOWNLOAD CV">📄 DESCARGAR CV</a>
+            </div>
+        </section>
+ 
+    </main>
+ 
+    <footer>
+        <p>© 2025 Lukeiner — Made with 🎮 & ☕</p>
+    </footer>
+ 
+    <script>
+        /* ── IDIOMA ── */
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const translatableElements = document.querySelectorAll('[data-es]');
+ 
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const lang = btn.textContent.toLowerCase();
+                translatableElements.forEach(el => {
+                    el.textContent = el.getAttribute(`data-${lang}`);
+                });
+            });
+        });
+
+ 
+        /* ── SCROLL REVEAL ── */
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(r => observer.observe(r));
+    </script>
+ 
+</body>
+</html>

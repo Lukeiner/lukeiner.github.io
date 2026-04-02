@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messimania — Proyecto | Lukeiner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal:      #0d9488;
+            --teal-light:#2dd4bf;
+            --bg:        #f1f5f9;
+            --surface:   #ffffff;
+            --border:    #e2e8f0;
+            --text:      #334155;
+            --text-dark: #1e293b;
+            --muted:     #64748b;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.75;
+            cursor: default;
+        }
+
+        /* ── HEADER ── */
+        header {
+            width: 100%;
+            background: linear-gradient(90deg, #64ffda 0%, #ffffff 50%, #64ffda 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--teal);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            font-weight: 700;
+            transition: gap 0.2s;
+            cursor: pointer;
+        }
+        .back-link:hover { gap: 12px; }
+
+        .header-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75em;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ── CONTENEDOR ── */
+        .container {
+            max-width: 760px;
+            margin: 56px auto;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        /* ── HERO ── */
+        .project-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(45,212,191,0.15);
+            color: var(--teal);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tag-award {
+            background: rgba(245,158,11,0.15);
+            color: #b45309;
+        }
+
+        .project-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.78em;
+            color: var(--muted);
+        }
+
+        .project-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.2em;
+            color: var(--text-dark);
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .project-subtitle {
+            font-size: 1.05em;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+
+        /* ── COVER (video o imagen) ── */
+        .cover-video {
+            width: 100%;
+            border-radius: 14px;
+            display: block;
+            background: #1e293b;
+        }
+
+        .cover-img {
+            width: 100%;
+            height: 300px;
+            border-radius: 14px;
+            object-fit: cover;
+            display: block;
+            /* Placeholder hasta que agregues la imagen */
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d9488 100%);
+        }
+
+        /* ── FICHA ── */
+        .ficha {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        .ficha-item label {
+            display: block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68em;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .ficha-item span {
+            font-size: 0.9em;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* ── SECCIONES ── */
+        .section h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1em;
+            color: var(--teal);
+            border-left: 4px solid var(--teal-light);
+            padding-left: 12px;
+            margin-bottom: 16px;
+        }
+
+        .section p {
+            font-size: 1em;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        /* ── GALERÍA DE ARTE ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #e2e8f0;
+            display: block;
+            transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s;
+        }
+        .gallery-img:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 24px rgba(13,148,136,0.15);
+        }
+
+        /* Placeholder para imágenes no cargadas */
+        .gallery-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 10px;
+            border: 1px dashed var(--border);
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7em;
+            color: var(--muted);
+            text-align: center;
+            padding: 12px;
+        }
+
+        /* ── HIGHLIGHT / QUOTE ── */
+        .highlight {
+            background: #f0fdfa;
+            border-left: 4px solid var(--teal-light);
+            border-radius: 0 10px 10px 0;
+            padding: 18px 22px;
+            font-style: italic;
+            color: var(--text-dark);
+            font-size: 1.05em;
+        }
+
+        /* ── PREMIO ── */
+        .award-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1.5px solid #fcd34d;
+            border-radius: 14px;
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .award-icon {
+            font-size: 2.8em;
+            flex-shrink: 0;
+        }
+        .award-text h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95em;
+            color: #92400e;
+            margin-bottom: 6px;
+        }
+        .award-text p {
+            font-size: 0.88em;
+            color: #a16207;
+        }
+        .award-text a {
+            display: inline-block;
+            margin-top: 10px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8em;
+            color: #b45309;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .award-text a:hover { text-decoration: underline; }
+
+        /* ── ROL / HERRAMIENTAS ── */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .chip {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75em;
+            padding: 5px 14px;
+            border-radius: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+        }
+
+        /* ── LINKS FINALES ── */
+        .links-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--teal);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            letter-spacing: 1px;
+            transition: background 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        .btn-primary:hover { background: #0f766e; transform: translateY(-2px); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border: 2px solid var(--teal);
+            color: var(--teal);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background: var(--teal);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ── FOOTER ── */
+        .page-footer {
+            padding: 24px 0 36px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .page-footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--teal);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            font-weight: 700;
+            transition: gap 0.2s;
+        }
+        .page-footer a:hover { gap: 12px; }
+        .page-footer p {
+            margin-top: 16px;
+            font-size: 0.78em;
+            color: var(--muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 520px) {
+            .project-title { font-size: 1.6em; }
+            .award-box { flex-direction: column; gap: 12px; }
+            .links-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="back-link">← Volver al inicio</a>
+        <span class="header-tag">Proyecto</span>
+    </header>
+
+    <main class="container">
+
+        <!-- HERO -->
+        <div class="reveal">
+            <div class="project-meta">
+                <span class="tag">Experiencia interactiva / Token</span>
+                <span class="tag tag-award"> 3D</span>
+                <span class="project-date">2026</span>
+            </div>
+
+            <h1 class="project-title">HeartCake Project</h1>
+            <p class="project-subtitle">Experiencia interactiva 3D donde se modifica un producto alimenticio, en este caso una Heart Cake.</p>
+
+            <img class="gallery-img" src="ImagenesHeartCake/HeartCakeProject.png" alt="Personaje 1">
+            
+            </div>
+        </div>
+
+        <!-- FICHA -->
+        <div class="ficha reveal">
+            <div class="ficha-item">
+                <label>Contexto</label>
+                <span> Experiencia propia
+                      <p>
+                      3D
+                      </p>
+                </span>
+            </div>
+            <div class="ficha-item">
+                <label>Motor</label>
+                <span>Unity</span>
+            </div>
+            <div class="ficha-item">
+                <label>Mi rol</label>
+                <span>Programador backend & UI/UX</span>
+            </div>
+            <div class="ficha-item">
+                <label>Año</label>
+                <span>2026</span>
+            </div>
+        </div>
+
+        <!-- CONTEXTO -->
+        <div class="section reveal">
+            <h2>El proyecto</h2>
+            <p>
+                Con mi búsqueda de saber mas de desarrollo 3D y mi pasión por la gastronomía decidí llevarlo al siguiente nivel al desarrollador una experiencia interactiva donde se pueda alterar el estado de un producto alimenticio, en este se puede: cambiar sus sabores, decorar y liberar partículas de confetti.
+            </p>
+        </div>
+
+
+        <!-- MI ROL -->
+        <div class="section reveal">
+            <h2>Mi rol — Programador</h2>
+            <p>
+                Diseñé, planifiqué y programé la estructura de clases utilizada, buscando que sea escalable, limpio y con los principios de responsabilidad única. Utilicé criterios de recorrido en Z para pantallas digitales, elección de colores, distribución de elementos, y mucho mas.
+            </p>
+            <div class="chips">
+                <span class="chip">3D</span>
+                <span class="chip">UI/UX</span>
+                <span class="chip">Tótem</span>
+                <span class="chip">Visuales</span>
+                <span class="chip">Backend/Fronten</span>
+            </div>
+        </div>
+
+        <!-- GALERÍA DE ARTE -->
+        <div class="section reveal">
+            <h2>Experiencia jugable</h2>
+            <p style="margin-bottom: 18px;">Interfaz completa, experiencia de usuario y sonidos.</p>
+            <video class="cover-video" autoplay muted loop playsinline
+                src="ImagenesHeartCake/CakeProject.mp4">
+            </video>
+        </div>
+
+        <!-- PROCESO -->
+        <div class="section reveal">
+            <h2>Proceso creativo</h2>
+            <p>
+                Al estar tan de moda las Heart Cakes era mi oportunidad de aprovechar el boom y generar una experiencia amigable, tierna con colores que acompañen a la experiencia de crear tu torta con amor y ternura.
+                </p>
+                Utilizando los conocimientos que adquirí en la EVA (Exposición de Videojuegos Argentinos), cursos de diseño y materias he podido crear una experiencia amigable y llevadera a la vista del usuario.
+            </p>
+        </div>
+
+
+        <!-- LINKS -->
+        <div class="reveal">
+            <div class="links-row">
+                <!-- Descomentá si tenés el juego en itch.io -->
+                <!-- <a href="https://lukeiner.itch.io/messimania" target="_blank" class="btn-primary">🎮 Jugar en Itch.io</a> -->
+                <a href="../index.html" class="btn-secondary">← Volver al portfolio</a>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="page-footer">
+            <a href="../index.html">← Volver al inicio</a>
+            <p>© 2025 Lukeiner</p>
+        </div>
+
+    </main>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(r => observer.observe(r));
+    </script>
+
+</body>
+</html>

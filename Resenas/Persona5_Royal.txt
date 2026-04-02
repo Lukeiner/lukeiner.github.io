@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona 5 — Reseña | Lukeiner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal:      #0d9488;
+            --teal-light:#2dd4bf;
+            --bg:        #f1f5f9;
+            --surface:   #ffffff;
+            --border:    #e2e8f0;
+            --text:      #334155;
+            --text-dark: #1e293b;
+            --muted:     #64748b;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.75;
+        }
+
+        /* ── HEADER ── */
+        header {
+            width: 100%;
+            background: linear-gradient(90deg, #64ffda 0%, #ffffff 50%, #64ffda 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--teal);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            font-weight: 700;
+            transition: gap 0.2s;
+        }
+        .back-link:hover { gap: 12px; }
+
+        .header-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75em;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ── CONTENEDOR ── */
+        .container {
+            max-width: 720px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            margin-bottom: 48px;
+        }
+
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(45,212,191,0.15);
+            color: var(--teal);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .review-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.78em;
+            color: var(--muted);
+        }
+
+        .review-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 2em;
+            color: var(--text-dark);
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+
+        .review-title span {
+            color: var(--teal);
+        }
+
+        /* Estrellas */
+        .stars-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .stars {
+            color: #f59e0b;
+            font-size: 1.4em;
+            letter-spacing: 3px;
+        }
+        .score-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            color: var(--muted);
+        }
+
+        /* Ficha técnica */
+        .ficha {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .ficha-item label {
+            display: block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7em;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .ficha-item span {
+            font-size: 0.9em;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Imagen / thumb */
+        .cover-img {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #e63946 50%, #f72585 100%);
+            border-radius: 14px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85em;
+            opacity: 0.85;
+            /* Reemplazar con: object-fit: cover si es un <img> real */
+        }
+
+        /* ── CUERPO DE LA RESEÑA ── */
+        .review-body {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .review-section h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1em;
+            color: var(--teal);
+            border-left: 4px solid var(--teal-light);
+            padding-left: 12px;
+            margin-bottom: 14px;
+        }
+
+        .review-section p {
+            font-size: 1em;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        /* Destacado / quote */
+        .highlight {
+            background: #f0fdfa;
+            border-left: 4px solid var(--teal-light);
+            border-radius: 0 10px 10px 0;
+            padding: 18px 22px;
+            font-style: italic;
+            color: var(--text-dark);
+            font-size: 1.05em;
+        }
+
+        /* Pros y cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .pros, .cons {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+        }
+        .pros h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            color: #10b981;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .cons h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            color: #f43f5e;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .pros ul, .cons ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .pros li::before { content: '+ '; color: #10b981; font-weight: 700; }
+        .cons li::before { content: '− '; color: #f43f5e; font-weight: 700; }
+        .pros li, .cons li { font-size: 0.88em; color: var(--text); }
+
+        /* Veredicto final */
+        .veredicto {
+            background: var(--text-dark);
+            color: #e2e8f0;
+            border-radius: 14px;
+            padding: 32px 36px;
+            text-align: center;
+        }
+        .veredicto .v-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72em;
+            color: var(--teal-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .veredicto .v-score {
+            font-family: 'Space Mono', monospace;
+            font-size: 3em;
+            color: white;
+            margin-bottom: 8px;
+        }
+        .veredicto .v-stars { color: #f59e0b; font-size: 1.3em; margin-bottom: 16px; }
+        .veredicto p {
+            font-size: 0.95em;
+            color: #94a3b8;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ── FOOTER ── */
+        .page-footer {
+            margin-top: 64px;
+            padding: 24px 0 36px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .page-footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--teal);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82em;
+            font-weight: 700;
+            transition: gap 0.2s;
+        }
+        .page-footer a:hover { gap: 12px; }
+        .page-footer p {
+            margin-top: 16px;
+            font-size: 0.78em;
+            color: var(--muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 520px) {
+            .pros-cons { grid-template-columns: 1fr; }
+            .review-title { font-size: 1.5em; }
+            .veredicto { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index3.html" class="back-link">← Volver al inicio</a>
+        <span class="header-tag">Reseña</span>
+    </header>
+
+    <main class="container">
+
+        <!-- HERO -->
+        <div class="hero reveal">
+            <div class="review-meta">
+                <span class="tag">Reseña</span>
+                <span class="review-date">Marzo 2025</span>
+            </div>
+
+            <h1 class="review-title">Persona 5 <span>Royal</span></h1>
+
+            <div class="stars-wrap">
+                <span class="stars">★★★★★</span>
+                <span class="score-label">10 / 10</span>
+            </div>
+
+            <!-- Reemplazá el div por un <img src="..." alt="..."> cuando tengas el arte -->
+            <div class="cover-img">
+                [ imagen de portada — Assets/Persona5_Cover.jpg ]
+            </div>
+
+            <!-- Ficha técnica -->
+            <div class="ficha">
+                <div class="ficha-item">
+                    <label>Desarrollador</label>
+                    <span>Atlus</span>
+                </div>
+                <div class="ficha-item">
+                    <label>Género</label>
+                    <span>JRPG / Social sim</span>
+                </div>
+                <div class="ficha-item">
+                    <label>Plataforma</label>
+                    <span>PS4 / PC / Switch</span>
+                </div>
+                <div class="ficha-item">
+                    <label>Horas jugadas</label>
+                    <span>~120 hs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUERPO -->
+        <div class="review-body">
+
+            <div class="review-section reveal">
+                <h2>Primera impresión</h2>
+                <p>
+                    Persona 5 te entra por los ojos antes de que puedas decir algo. El menú principal ya es una declaración de intenciones: todo es movimiento, rojo, estilo. Pero lo que podría haber sido puro estilo termina siendo sustancia. Desde la primera hora sabés que estás ante algo distinto.
+                </p>
+            </div>
+
+            <div class="highlight reveal">
+                "No es solo un juego de rol — es una afirmación sobre la rebeldía, la identidad y lo que significa cambiar el mundo desde adentro."
+            </div>
+
+            <div class="review-section reveal">
+                <h2>Diseño y mecánicas</h2>
+                <p>
+                    El loop de gameplay es adictivo por su claridad: de día construís relaciones (Confidants) que potencian tu equipo; de noche infiltrás Palacios donde el combate por turnos te exige pensar. Cada enemigo tiene debilidades, cada batalla puede ganarse o perderse por un mal movimiento. El sistema Baton Pass para encadenar ataques entre personajes es satisfactorio en un nivel casi físico.
+                </p>
+            </div>
+
+            <div class="review-section reveal">
+                <h2>Narrativa y personajes</h2>
+                <p>
+                    El elenco es lo que te retiene. Ryuji, Ann, Makoto, Futaba — cada uno carga una historia que habla de presión social, trauma o injusticia, y su desarrollo no se siente forzado. La versión Royal agrega a Kasumi y el Tercer Semestre, que elevan el cierre emocional del juego a otro nivel.
+                </p>
+            </div>
+
+            <div class="pros-cons reveal">
+                <div class="pros">
+                    <h3>Lo mejor</h3>
+                    <ul>
+                        <li>Dirección de arte inigualable</li>
+                        <li>Sistema de combate profundo</li>
+                        <li>Banda sonora icónica</li>
+                        <li>Personajes con arcos reales</li>
+                        <li>Tercer Semestre (Royal)</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>Lo que cansa</h3>
+                    <ul>
+                        <li>Ritmo lento en el primer arco</li>
+                        <li>Algunos Confidants son débiles</li>
+                        <li>Duración puede agobiar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="review-section reveal">
+                <h2>Como dev, ¿qué me llevo?</h2>
+                <p>
+                    La consistencia estética es brutal. Cada pantalla, cada transición, cada sonido refuerza la misma idea. Es un recordatorio de que el game feel no es solo animación — es la suma de cada decisión visual y sonora trabajando junta. También me quedo pensando en cómo manejaron la progresión de los Confidants: es una forma elegante de darle al jugador objetivos secundarios con recompensas concretas sin romper el ritmo principal.
+                </p>
+            </div>
+
+            <!-- VEREDICTO -->
+            <div class="veredicto reveal">
+                <p class="v-label">Veredicto final</p>
+                <div class="v-score">10 / 10</div>
+                <div class="v-stars">★★★★★</div>
+                <p>
+                    Persona 5 Royal no es perfecto — es mejor que eso. Es un juego que sabe exactamente lo que quiere ser y lo ejecuta con una convicción que pocas veces se ve. Una de esas experiencias que te cambia el estándar de lo que un videojuego puede lograr.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="page-footer">
+            <a href="../index3.html">← Volver al inicio</a>
+            <p>© 2025 Lukeiner</p>
+        </div>
+
+    </main>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(r => observer.observe(r));
+    </script>
+
+</body>
+</html>
