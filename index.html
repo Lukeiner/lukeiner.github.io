@@ -61,11 +61,11 @@
         /* Título desplazado a la derecha con espacio para el dibujo */
         .header-title-wrap {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             gap: 0px;
-            margin-left: auto;
-            margin-right: 20px;
-            position: relative;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-30%);
         }
 
         .header-title-wrap img {
